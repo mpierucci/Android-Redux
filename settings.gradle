@@ -1,0 +1,6 @@
+rootProject.name = "Unidirectional Data Flow"
+include ':app'
+include ':drink:domain'
+include ':redux'
+include ':dispatcher'
+include ':search'
