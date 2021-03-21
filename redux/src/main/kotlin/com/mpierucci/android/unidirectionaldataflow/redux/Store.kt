@@ -1,7 +1,6 @@
 package com.mpierucci.android.unidirectionaldataflow.redux
 
 import androidx.annotation.MainThread
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
@@ -50,12 +49,6 @@ abstract class Store<State, Action, Effect>(
     private val _effect = Channel<Effect>()
     val effect = _effect.receiveAsFlow()
 
-    @VisibleForTesting
-    internal val middleWareChain = createMiddlewareChain()
-
-    /*
-       TODO could I have the need to emit both a view effect and a state? Don´t think so
-     */
     abstract suspend fun reduce(previous: State, action: Action): Either<Effect, State>
 
     @MainThread
@@ -67,8 +60,8 @@ abstract class Store<State, Action, Effect>(
             Source :https://medium.com/@trionkidnapper/launching-a-kotlin-coroutine-for-immediate-execution-on-the-main-thread-8555e701163b
          */
         viewModelScope.launch(dispatcherProvider.main()) {
-            //TODO should the middleware be able to absorb the action and return null?
-            val interceptedAction = middleWareChain.next(this@Store, action) ?: return@launch
+
+            val interceptedAction = applyMiddlewares(action) ?: return@launch
             reduce(state.value, interceptedAction).fold(
                 { effect -> _effect.send(effect) },
                 { state -> _state.emit(state) }
@@ -76,10 +69,15 @@ abstract class Store<State, Action, Effect>(
         }
     }
 
-    private fun createMiddlewareChain(index: Int = 0): DispatchChain<Action> {
+    private fun applyMiddlewares(action: Action): Action? {
+        return next(0)(this, action)
+    }
+
+    private fun next(index: Int): DispatchChain<Action> {
         if (index == middlewares.size) {
-            return EndOfChain()
+            return { _, action -> action }
         }
-        return NextMiddleware(middlewares[index], createMiddlewareChain(index + 1))
+
+        return { store, action -> middlewares[0](store, action, next(index + 1)) }
     }
 }

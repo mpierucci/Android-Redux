@@ -3,6 +3,8 @@ package com.mpierucci.android.unidirectionaldataflow.redux
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.mpierucci.android.unidirectionaldatafloew.ristretto.CoroutineTest
+import com.mpierucci.android.unidirectionaldatafloew.ristretto.any
+import com.mpierucci.android.unidirectionaldatafloew.ristretto.eq
 import com.mpierucci.android.unidirectionaldataflow.redux.TestAction.TestActionA
 import com.mpierucci.android.unidirectionaldataflow.redux.TestAction.TestActionB
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
+import org.mockito.Mockito
 
 @ExperimentalCoroutinesApi
 class StoreTest : CoroutineTest() {
@@ -24,23 +27,30 @@ class StoreTest : CoroutineTest() {
     }
 
     @Test
-    fun `create middleware chain with middlewares`() {
-        val middleware = Middleware<TestAction> { _, action, _ -> action }
+    fun `apply middlewares before reducing state`() = testDispatcher.runBlockingTest {
+        val middleware: Middleware<TestAction> = { _, action, _ ->
+            when (action) {
+                is TestActionA -> TestActionB
+                else -> action
+            }
+        }
         val sut = DummyStore(listOf(middleware))
 
-        val result = sut.middleWareChain
+        val sutSpy = Mockito.spy(sut)
+        sutSpy.dispatch(TestActionA(""))
 
-        assertThat(result).isInstanceOf(NextMiddleware::class.java)
+        Mockito.verify(sutSpy).reduce(any(), eq(TestActionB))
     }
 
     @Test
-    fun `create middleware chain without  middlewares`() {
+    fun `reduces original action if no middleware are provided`() = testDispatcher.runBlockingTest {
 
         val sut = DummyStore(emptyList())
 
-        val result = sut.middleWareChain
+        val sutSpy = Mockito.spy(sut)
+        sutSpy.dispatch(TestActionA("sut"))
 
-        assertThat(result).isInstanceOf(EndOfChain::class.java)
+        Mockito.verify(sutSpy).reduce(any(), eq(TestActionA("sut")))
     }
 
     @Test
@@ -93,13 +103,4 @@ class StoreTest : CoroutineTest() {
     }
 
 
-    fun searchMiddleWare() = Middleware<TestAction> { store, action, next ->
-        when (action) {
-            is TestActionB -> {
-                store.dispatch(TestActionA(""))
-                null
-            }
-            else -> next.next(store, action)
-        }
-    }
 }
