@@ -11,7 +11,7 @@ import com.mpierucci.android.unidirectionaldataflow.search.SearchAction.LoadSear
 import com.mpierucci.android.unidirectionaldataflow.search.SearchAction.Search
 import kotlinx.coroutines.launch
 
-internal class PerformSearchMiddleware(
+class PerformSearchMiddleware(
     private val getDrinksByNameUseCase: GetDrinksByNameUseCase,
     private val dispatcherProvider: DispatcherProvider
 ) : Middleware<SearchAction> {

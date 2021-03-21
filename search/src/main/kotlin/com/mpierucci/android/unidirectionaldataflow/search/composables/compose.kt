@@ -1,6 +1,5 @@
 package com.mpierucci.android.unidirectionaldataflow.search.composables
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,11 +19,11 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun SearchToolbarPreview() {
-    SearchToolbar("")
+    SearchToolbar("",{})
 }
 
 @Composable
-fun SearchToolbar(query: String) {
+fun SearchToolbar(query: String, onQueryValueChanged: (String) -> Unit) {
 
 
     Surface(
@@ -36,7 +34,7 @@ fun SearchToolbar(query: String) {
         TextField(
             value = query,
             onValueChange = {
-
+                onQueryValueChanged(it)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -45,7 +43,7 @@ fun SearchToolbar(query: String) {
             leadingIcon = { Icons.Filled.Search },
             keyboardActions = KeyboardActions(
                 onSearch = {
-                   // Toast.makeText(LocalContext.current, "Searched", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(LocalContext.current, "Searched", Toast.LENGTH_SHORT).show()
                 }
             )
         )

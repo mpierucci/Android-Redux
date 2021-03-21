@@ -64,7 +64,7 @@ abstract class Store<State, Action, Effect>(
             val interceptedAction = applyMiddlewares(action) ?: return@launch
             reduce(state.value, interceptedAction).fold(
                 { effect -> _effect.send(effect) },
-                { state -> _state.emit(state) }
+                { state -> _state.emit(state) } //TODO check if state is the saame not emmit
             )
         }
     }
