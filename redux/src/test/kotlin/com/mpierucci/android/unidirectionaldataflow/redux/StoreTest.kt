@@ -2,25 +2,17 @@ package com.mpierucci.android.unidirectionaldataflow.redux
 
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
-import com.mpierucci.android.unidirectionaldataflow.dispatcher.TestDispatcherProvider
+import com.mpierucci.android.unidirectionaldatafloew.ristretto.CoroutineTest
 import com.mpierucci.android.unidirectionaldataflow.redux.TestAction.TestActionA
 import com.mpierucci.android.unidirectionaldataflow.redux.TestAction.TestActionB
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class StoreTest {
-
-    @get:Rule
-    val testDispatcherRule = TestDispatcherRule()
-
-    private val dispatcherProvider = TestDispatcherProvider(testDispatcherRule.testDispatcher)
-
-    private val testDispatcher get() = testDispatcherRule.testDispatcher
+class StoreTest : CoroutineTest() {
 
     @Test
     fun `initial state is emitted`() {

@@ -15,31 +15,3 @@ interface DispatcherProvider {
 
     fun unconfined(): CoroutineDispatcher = Dispatchers.Unconfined
 }
-
-
-@ExperimentalCoroutinesApi
-class TestDispatcherProvider(private val testDispatcher: TestCoroutineDispatcher) :
-    DispatcherProvider {
-    override fun default() = testDispatcher
-    override fun io() = testDispatcher
-    override fun main() = testDispatcher
-    override fun unconfined() = testDispatcher
-}
-
-class ReleaseDispatcherProvider : DispatcherProvider
-
-/*
-
-  For later
-
-
-
-
-@Module
-abstract class DispatcherModule {
-
-    @Binds
-    @Singleton
-    abstract fun bindDispatcherProvider(dispatcher: ReleaseDispatcher): DispatcherProvider
-}
- */
