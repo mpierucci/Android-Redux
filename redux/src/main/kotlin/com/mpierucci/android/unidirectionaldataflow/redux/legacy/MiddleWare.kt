@@ -1,4 +1,4 @@
-package com.mpierucci.android.unidirectionaldataflow.redux
+package com.mpierucci.android.unidirectionaldataflow.redux.legacy
 
 
 /*

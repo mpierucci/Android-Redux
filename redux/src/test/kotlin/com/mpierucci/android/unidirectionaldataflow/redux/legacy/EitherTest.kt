@@ -1,7 +1,9 @@
-package com.mpierucci.android.unidirectionaldataflow.redux
+package com.mpierucci.android.unidirectionaldataflow.redux.legacy
 
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
+import com.mpierucci.android.unidirectionaldataflow.redux.legacy.effect
+import com.mpierucci.android.unidirectionaldataflow.redux.legacy.state
 import org.junit.Test
 
 class EitherTest {
