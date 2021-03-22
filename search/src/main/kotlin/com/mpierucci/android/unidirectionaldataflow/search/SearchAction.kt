@@ -1,6 +1,6 @@
 package com.mpierucci.android.unidirectionaldataflow.search
 
-import com.mpierucci.android.drinkdb.domain.Drink
+import com.mpierucci.android.unidirectionaldataflow.drink.domain.Drink
 
 sealed class SearchAction {
     data class Search(val query: String) : SearchAction()
