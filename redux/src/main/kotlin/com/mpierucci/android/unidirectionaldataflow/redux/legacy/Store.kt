@@ -1,4 +1,4 @@
-package com.mpierucci.android.unidirectionaldataflow.redux
+package com.mpierucci.android.unidirectionaldataflow.redux.legacy
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel

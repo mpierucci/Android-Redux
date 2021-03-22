@@ -1,12 +1,15 @@
-package com.mpierucci.android.unidirectionaldataflow.redux
+package com.mpierucci.android.unidirectionaldataflow.redux.legacy
 
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.mpierucci.android.unidirectionaldatafloew.ristretto.CoroutineTest
 import com.mpierucci.android.unidirectionaldatafloew.ristretto.any
 import com.mpierucci.android.unidirectionaldatafloew.ristretto.eq
+import com.mpierucci.android.unidirectionaldataflow.redux.TestAction
 import com.mpierucci.android.unidirectionaldataflow.redux.TestAction.TestActionA
 import com.mpierucci.android.unidirectionaldataflow.redux.TestAction.TestActionB
+import com.mpierucci.android.unidirectionaldataflow.redux.TestEffect
+import com.mpierucci.android.unidirectionaldataflow.redux.TestState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
