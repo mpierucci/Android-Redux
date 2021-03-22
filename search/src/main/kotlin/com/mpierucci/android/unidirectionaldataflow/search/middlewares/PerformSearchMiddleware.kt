@@ -10,8 +10,9 @@ import com.mpierucci.android.unidirectionaldataflow.search.SearchAction
 import com.mpierucci.android.unidirectionaldataflow.search.SearchAction.LoadSearchResults
 import com.mpierucci.android.unidirectionaldataflow.search.SearchAction.Search
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PerformSearchMiddleware(
+class PerformSearchMiddleware @Inject constructor(
     private val getDrinksByNameUseCase: GetDrinksByNameUseCase,
     private val dispatcherProvider: DispatcherProvider
 ) : Middleware<SearchAction> {

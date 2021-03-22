@@ -1,57 +1,56 @@
 package com.mpierucci.android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import com.mpierucci.android.drinkdb.domain.Drink
-import com.mpierucci.android.drinkdb.domain.DrinkRepository
-import com.mpierucci.android.drinkdb.domain.GetDrinksByNameUseCase
-import com.mpierucci.android.unidirectionaldataflow.dispatcher.DispatcherProvider
 import com.mpierucci.android.unidirectionaldataflow.search.SearchAction
 import com.mpierucci.android.unidirectionaldataflow.search.SearchStore
 import com.mpierucci.android.unidirectionaldataflow.search.composables.SearchToolbar
-import com.mpierucci.android.unidirectionaldataflow.search.middlewares.PerformSearchMiddleware
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val fakeRepo = object : DrinkRepository {
-            override suspend fun getByName(drinkName: String): List<Drink> {
-                TODO("Not yet implemented")
-            }
-        }
-
-        /*
-        For the prupos of quick testing
-         */
-        val provider = object : DispatcherProvider {}
-        val viewModel = SearchStore(
-            provider,
-            listOf(PerformSearchMiddleware(GetDrinksByNameUseCase(fakeRepo), provider))
-        )
+        val viewModel by viewModels<SearchStore>()
         setContent {
-            searchScreenComposable(store = viewModel)
+            SearchScreen(store = viewModel)
         }
     }
 }
 
 
 @Composable
-fun searchScreenComposable(store: SearchStore) {
+fun SearchScreen(store: SearchStore) {
 
 
     /**
      * TODO because with redux we observe the state as a whole, new state wil cause
-     * the composable to recompositios or is compose smart enough?
+     * the composable to recompositios or is compose smart enough? Doesnt look like
      *
      */
     val state = store.state.collectAsState()
-
-    SearchToolbar(query = state.value.query) { querySlice ->
-        store.dispatch(SearchAction.AppendSearchQuery(querySlice))
+    //TODO maybe collect normally and split the priority in composable states
+    Column {
+        SearchToolbar(
+            query = state.value.query,
+            onQueryValueChanged = { querySlice ->
+                store.dispatch(SearchAction.AppendSearchQuery(querySlice))
+            },
+            { searchQuery ->
+                store.dispatch(SearchAction.Search(searchQuery))
+            })
+        Column {
+            state.value.drinks.forEach {
+                Log.e("Marco", "Composing drinks")
+                Text(it.name)
+            }
+        }
     }
-
 }

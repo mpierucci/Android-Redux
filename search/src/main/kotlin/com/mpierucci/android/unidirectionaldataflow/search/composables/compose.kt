@@ -1,5 +1,6 @@
 package com.mpierucci.android.unidirectionaldataflow.search.composables
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,13 +20,16 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun SearchToolbarPreview() {
-    SearchToolbar("",{})
+    SearchToolbar("", {},{})
 }
 
 @Composable
-fun SearchToolbar(query: String, onQueryValueChanged: (String) -> Unit) {
-
-
+fun SearchToolbar(
+    query: String,
+    onQueryValueChanged: (String) -> Unit,
+    onSearch: (String) -> Unit
+) {
+    Log.e("Marco","Composing toolbar")
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = MaterialTheme.colors.surface,
@@ -43,11 +47,9 @@ fun SearchToolbar(query: String, onQueryValueChanged: (String) -> Unit) {
             leadingIcon = { Icons.Filled.Search },
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    // Toast.makeText(LocalContext.current, "Searched", Toast.LENGTH_SHORT).show()
+                    onSearch(query)
                 }
             )
         )
-
-
     }
 }
