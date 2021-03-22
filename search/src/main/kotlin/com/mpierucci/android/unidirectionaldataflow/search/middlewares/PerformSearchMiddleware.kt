@@ -9,8 +9,11 @@ import com.mpierucci.android.unidirectionaldataflow.search.SearchAction
 import com.mpierucci.android.unidirectionaldataflow.search.SearchAction.LoadSearchResults
 import com.mpierucci.android.unidirectionaldataflow.search.SearchAction.Search
 import com.mpierucci.android.unidirectionaldataflow.search.SearchState
+import dagger.Module
+import dagger.Provides
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Qualifier
 
 class PerformSearchMiddleware @Inject constructor(
     private val getDrinksByNameUseCase: GetDrinksByNameUseCase,
@@ -29,5 +32,26 @@ class PerformSearchMiddleware @Inject constructor(
                 else -> action
             }
         }
+    }
+}
+
+interface Interface
+
+class InterfaceImpl1:Interface
+class InterfaceImpl2:Interface
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SearchStoreMiddlewares
+
+
+@Module
+object FakeModule {
+
+
+    @Provides
+    @SearchStoreMiddlewares
+    fun provideSearchStoreMiddleWares(one:InterfaceImpl1,two:InterfaceImpl2): List<Interface> {
+        return listOf(one,)
     }
 }
