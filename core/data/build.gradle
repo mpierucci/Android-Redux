@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -29,6 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
 }
 
 dependencies {
@@ -36,5 +42,11 @@ dependencies {
     implementation "androidx.core:core-ktx:${core_ktx}"
     testImplementation "junit:junit:{$jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitEspresso}"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+    implementation "com.squareup.retrofit2:retrofit:${retrofit}"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${retrofitKotlinxSerialziation}"
+    implementation "com.squareup.okhttp3:okhttp:${okHttp}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${expressoCore}"
 }

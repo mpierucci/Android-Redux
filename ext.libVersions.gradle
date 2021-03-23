@@ -7,6 +7,10 @@ allprojects {
 
         core_ktx = "1.3.2"
 
+        retrofit = "2.9.0"
+        retrofitKotlinxSerialziation = "0.8.0"
+        okHttp = "4.9.0"
+
         //////////////////////////////////////TEST/////////////////////////////////////////////////
         jUnit = "4.13.2"
 
