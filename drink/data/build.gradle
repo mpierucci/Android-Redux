@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -40,13 +41,18 @@ android {
 dependencies {
 
     implementation "androidx.core:core-ktx:${core_ktx}"
-    testImplementation "junit:junit:{$jUnit}"
-    androidTestImplementation "androidx.test.ext:junit:${jUnitEspresso}"
-    api "org.jetbrains.kotlinx:kotlinx-serialization-json:${kotlinxSerialisation}"
-    api "com.squareup.retrofit2:retrofit:${retrofit}"
+    implementation project(":drink:domain")
+    implementation project(":core:data")
+    implementation project(":dispatcher")
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${retrofitKotlinxSerialziation}"
-    implementation "com.squareup.okhttp3:okhttp:${okHttp}"
+    testImplementation "org.mockito:mockito-inline:${mockito}"
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
+    testImplementation "junit:junit:${jUnit}"
+    testImplementation "com.google.truth:truth:${truth}"
+    testImplementation project(":ristretto")
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlin_coroutines}"
+    androidTestImplementation "androidx.test.ext:junit:${jUnitEspresso}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${expressoCore}"
 }

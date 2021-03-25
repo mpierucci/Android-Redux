@@ -24,10 +24,15 @@ object ApiModule {
     @Provides
     fun provideRetrofitClient(okHttpClient: OkHttpClient): Retrofit {
         val contentType = "application/json".toMediaType()
+        val json = Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+
+        }
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("https://www.thecocktaildb.com/api/json/v1/1/")
-            .addConverterFactory(Json.asConverterFactory(contentType))
+            .baseUrl("https://www.thecocktaildb.com/")
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
     }
 }
