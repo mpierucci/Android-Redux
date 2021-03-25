@@ -1,7 +1,7 @@
 package com.mpierucci.android.unidirectionaldataflow.search.middlewares
 
 import androidx.lifecycle.viewModelScope
-import com.mpierucci.android.drinkdb.domain.GetDrinksByNameUseCase
+import com.mpierucci.android.unidirectionaldataflow.drink.domain.GetDrinksByNameUseCase
 import com.mpierucci.android.unidirectionaldataflow.dispatcher.DispatcherProvider
 import com.mpierucci.android.unidirectionaldataflow.redux.experimental.Middleware
 import com.mpierucci.android.unidirectionaldataflow.redux.experimental.Store
@@ -32,26 +32,5 @@ class PerformSearchMiddleware @Inject constructor(
                 else -> action
             }
         }
-    }
-}
-
-interface Interface
-
-class InterfaceImpl1:Interface
-class InterfaceImpl2:Interface
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class SearchStoreMiddlewares
-
-
-@Module
-object FakeModule {
-
-
-    @Provides
-    @SearchStoreMiddlewares
-    fun provideSearchStoreMiddleWares(one:InterfaceImpl1,two:InterfaceImpl2): List<Interface> {
-        return listOf(one,)
     }
 }

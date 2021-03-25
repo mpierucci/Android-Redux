@@ -1,4 +1,4 @@
-package com.mpierucci.android.drinkdb.domain
+package com.mpierucci.android.unidirectionaldataflow.drink.domain
 
 import dagger.Module
 import dagger.Provides
