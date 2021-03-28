@@ -34,7 +34,7 @@ abstract class Store<State, Action>(
         .map { middleware -> middleware(this) }
         .reduceOrNull { function, acc -> acc.compose(function) }
 
-    abstract suspend fun reduce(previous: State, action: Action): State
+    protected abstract suspend fun reduce(previous: State, action: Action): State
 
     @MainThread
     fun dispatch(action: Action) {
