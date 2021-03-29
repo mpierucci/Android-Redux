@@ -1,4 +1,4 @@
-package com.mpierucci.android.redux.redux.experimental
+package com.mpierucci.android.redux.redux
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
@@ -10,17 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-/**
- * With a pure-ish (still no global application) you don't emmit effect/events to the view. You
- * model this through the event itself.
- *
- * To avoid  those events recreated on orientation changes you´d immediately send an action
- * to clear the that stat. But in order for this to work your presentation needs to support
- * partial updates otherwise  you´ll loose performance on redrawing a lot.
- *
- *
- * Not sure if we can achieve this with compose yet hence experimental APi.
- */
 abstract class Store<State, Action>(
     initialState: State,
     middlewares: List<Middleware<State, Action>>,

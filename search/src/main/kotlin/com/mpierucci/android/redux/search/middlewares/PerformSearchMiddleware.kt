@@ -3,8 +3,8 @@ package com.mpierucci.android.redux.search.middlewares
 import androidx.lifecycle.viewModelScope
 import com.mpierucci.android.redux.drink.domain.GetDrinksByNameUseCase
 import com.mpierucci.android.redux.dispatcher.DispatcherProvider
-import com.mpierucci.android.redux.redux.experimental.Middleware
-import com.mpierucci.android.redux.redux.experimental.Store
+import com.mpierucci.android.redux.redux.Middleware
+import com.mpierucci.android.redux.redux.Store
 import com.mpierucci.android.redux.search.SearchAction
 import com.mpierucci.android.redux.search.SearchAction.LoadSearchResults
 import com.mpierucci.android.redux.search.SearchAction.Search

@@ -1,7 +1,9 @@
-package com.mpierucci.android.redux.redux.experimental
+package com.mpierucci.android.redux.redux
 
 
 import com.google.common.truth.Truth.assertThat
+import com.mpierucci.android.redux.redux.Middleware
+import com.mpierucci.android.redux.redux.Store
 import com.mpierucci.android.redux.ristretto.CoroutineTest
 import com.mpierucci.android.redux.ristretto.any
 import com.mpierucci.android.redux.ristretto.eq

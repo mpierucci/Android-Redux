@@ -1,7 +1,7 @@
 package com.mpierucci.android.redux.search
 
 import com.mpierucci.android.redux.dispatcher.DispatcherProvider
-import com.mpierucci.android.redux.redux.experimental.Store
+import com.mpierucci.android.redux.redux.Store
 import com.mpierucci.android.redux.search.middlewares.PerformSearchMiddleware
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
