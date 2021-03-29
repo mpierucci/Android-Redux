@@ -5,8 +5,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
-import com.mpierucci.android.unidirectionaldataflow.search.SearchStore
-import com.mpierucci.android.unidirectionaldataflow.search.composables.SearchScreen
+import com.mpierucci.android.redux.search.SearchStore
+import com.mpierucci.android.redux.search.composables.SearchScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

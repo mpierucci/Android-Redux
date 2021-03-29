@@ -40,7 +40,7 @@ android {
 dependencies {
 
     implementation "androidx.core:core-ktx:${core_ktx}"
-    testImplementation "junit:junit:{$jUnit}"
+    testImplementation "junit:junit:${jUnit}"
     androidTestImplementation "androidx.test.ext:junit:${jUnitEspresso}"
     api "org.jetbrains.kotlinx:kotlinx-serialization-json:${kotlinxSerialisation}"
     api "com.squareup.retrofit2:retrofit:${retrofit}"
