@@ -57,7 +57,6 @@ fun SearchScreen(store: SearchStore) {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(drinks, { drink: Drink -> drink.id }) { drink ->
-
                     Row {
                         CoilImage(
                             data = drink.thumbnail,

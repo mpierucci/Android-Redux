@@ -19,7 +19,8 @@ allprojects {
         //////////////////////////////////////TEST/////////////////////////////////////////////////
         jUnit = "4.13.2"
         truth = "1.1.2"
-        mockito = "3.8.0"
+        mockito = "3.9.0"
+        mockito_kotlin = "3.1.0"
 
         jUnitEspresso = "1.1.2"
         expressoCore = "3.3.0"

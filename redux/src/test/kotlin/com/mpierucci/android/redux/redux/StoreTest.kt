@@ -5,14 +5,14 @@ import com.google.common.truth.Truth.assertThat
 import com.mpierucci.android.redux.redux.Middleware
 import com.mpierucci.android.redux.redux.Store
 import com.mpierucci.android.redux.ristretto.CoroutineTest
-import com.mpierucci.android.redux.ristretto.any
-import com.mpierucci.android.redux.ristretto.eq
 import com.mpierucci.android.redux.redux.TestAction
 import com.mpierucci.android.redux.redux.TestState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 import org.mockito.Mockito
+import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
 
 @ExperimentalCoroutinesApi
 class StoreTest : CoroutineTest() {

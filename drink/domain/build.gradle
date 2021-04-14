@@ -20,5 +20,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(":dispatcher")
     implementation "com.google.dagger:hilt-core:$hilt_version"
+    implementation 'junit:junit:4.13.2'
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin"
+    testImplementation project(":ristretto")
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
+    testImplementation "com.google.truth:truth:1.1.2"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 }
