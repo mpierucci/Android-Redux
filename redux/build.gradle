@@ -11,8 +11,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -48,8 +46,8 @@ dependencies {
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
     api "io.arrow-kt:arrow-core:$arrow_version"
     api "io.arrow-kt:arrow-syntax:$arrow_version"
-    api "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
 
 
     kapt "io.arrow-kt:arrow-meta:$arrow_version"
@@ -57,8 +55,8 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:$mockito_kotlin"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin"
     testImplementation project(":ristretto")
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
-    testImplementation "com.google.truth:truth:1.1.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines"
+    testImplementation "com.google.truth:truth:$truth"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
