@@ -7,6 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue // Needed for collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -22,7 +23,7 @@ import com.mpierucci.android.redux.search.SearchStore
 @Composable
 fun SearchScreen(store: SearchStore) {
 
-    val state = store.state.collectAsState().value
+    val state by store.state.collectAsState()
     val drinks = state.drinks
     Column {
         SearchToolbar(
@@ -69,7 +70,7 @@ fun SearchScreen(store: SearchStore) {
 @Composable
 /*
 Column is a inline function and thus not skippable by default recomposition
-SO to make it skipable we create its own Composable. This might be a case of premature composition..
+SO to make it skipable we create its own Composable. This might be a case of premature optimization..
  */
 fun EmptySearch() {
     Column(
