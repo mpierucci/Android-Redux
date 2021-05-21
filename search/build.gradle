@@ -78,12 +78,12 @@ dependencies {
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     implementation 'androidx.compose.foundation:foundation:1.0.0-beta07'
     // Material Design
-    implementation 'androidx.compose.material:material:1.0.0-beta04'
+    implementation 'androidx.compose.material:material:1.0.0-beta07'
     // Material design icons
     implementation 'androidx.compose.material:material-icons-core:1.0.0-beta07'
     implementation 'androidx.compose.material:material-icons-extended:1.0.0-beta07'
     // Integration with activities
-    implementation 'androidx.activity:activity-compose:1.3.0-alpha06'
+    implementation 'androidx.activity:activity-compose:1.3.0-alpha08'
     // Integration with ViewModels
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05'
     implementation "com.google.accompanist:accompanist-coil:0.7.0"
