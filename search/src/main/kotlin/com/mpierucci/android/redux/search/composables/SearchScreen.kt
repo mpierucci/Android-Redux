@@ -1,5 +1,6 @@
 package com.mpierucci.android.redux.search.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -7,13 +8,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue // Needed for collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import coil.transform.CircleCropTransformation
-import com.google.accompanist.coil.CoilImage
+import coil.compose.rememberImagePainter
 import com.mpierucci.android.redux.drink.domain.Drink
 import com.mpierucci.android.redux.search.SearchAction
 import com.mpierucci.android.redux.search.SearchStore
@@ -45,14 +45,10 @@ fun SearchScreen(store: SearchStore) {
             ) {
                 items(drinks, { drink: Drink -> drink.id }) { drink ->
                     Row {
-                        CoilImage(
-                            data = drink.thumbnail,
+                        Image(
+                            painter = rememberImagePainter(drink.thumbnail),
                             contentDescription = null,
-                            requestBuilder = {
-                                size(150)
-                                transformations(CircleCropTransformation())
-                            }
-
+                            modifier = Modifier.size(150.dp)
                         )
 
                         Text(
