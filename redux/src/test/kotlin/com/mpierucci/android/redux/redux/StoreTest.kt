@@ -2,17 +2,14 @@ package com.mpierucci.android.redux.redux
 
 
 import com.google.common.truth.Truth.assertThat
-import com.mpierucci.android.redux.redux.Middleware
-import com.mpierucci.android.redux.redux.Store
+import com.mpierucci.android.redux.redux.TestAction.TestActionA
+import com.mpierucci.android.redux.redux.TestState.*
 import com.mpierucci.android.redux.ristretto.CoroutineTest
-import com.mpierucci.android.redux.redux.TestAction
-import com.mpierucci.android.redux.redux.TestState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
-import org.mockito.Mockito
-import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
 
 @ExperimentalCoroutinesApi
 class StoreTest : CoroutineTest() {
@@ -23,29 +20,18 @@ class StoreTest : CoroutineTest() {
 
         val result = sut.state.value
 
-        assertThat(result).isEqualTo(TestState.Initial)
+        assertThat(result).isEqualTo(Initial)
     }
 
     @Test
     fun `emits state after reduction`() {
         val sut = DummyStore(emptyList())
 
-        sut.dispatch(TestAction.TestActionA(""))
+        sut.dispatch(TestActionA(""))
 
         val result = sut.state.value
 
-        assertThat(result).isEqualTo(TestState.Dummy)
-    }
-
-    @Test
-    fun `reduces original action if no middleware are provided`() = testDispatcher.runBlockingTest {
-
-        val sut = DummyStore(emptyList())
-
-        val sutSpy = Mockito.spy(sut)
-        sutSpy.dispatch(TestAction.TestActionA("sut"))
-
-        Mockito.verify(sutSpy).reduce(any(), eq(TestAction.TestActionA("sut")))
+        assertThat(result).isEqualTo(StateA)
     }
 
     @Test
@@ -53,32 +39,50 @@ class StoreTest : CoroutineTest() {
         val middleware: Middleware<TestState, TestAction> = { _ ->
             { action ->
                 when (action) {
-                    is TestAction.TestActionA -> TestAction.TestActionB
+                    is TestActionA -> TestAction.TestActionB
                     else -> action
                 }
             }
         }
         val sut = DummyStore(listOf(middleware))
 
-        val sutSpy = Mockito.spy(sut)
-        sutSpy.dispatch(TestAction.TestActionA(""))
+        sut.dispatch(TestActionA(""))
 
-        Mockito.verify(sutSpy).reduce(any(), eq(TestAction.TestActionB))
+        val result = sut.state.value
+
+        assertThat(result).isEqualTo(StateB)
+    }
+
+    @Test
+    fun `does not duplicate states`() = testDispatcher.runBlockingTest {
+        val sut = DummyStore(emptyList())
+        val states = mutableListOf<TestState>()
+
+        val job = launch {
+            sut.state.toList(states)
+        }
+
+        sut.dispatch(TestActionA(""))
+        sut.dispatch(TestActionA(""))
+
+        assertThat(states).hasSize(2)
+
+        job.cancel()
     }
 
 
     private inner class DummyStore(
         middleware: List<Middleware<TestState, TestAction>>
     ) : Store<TestState, TestAction>(
-        TestState.Initial,
+        Initial,
         middleware,
         dispatcherProvider
     ) {
         override suspend fun reduce(previous: TestState, action: TestAction): TestState {
             return when (action) {
-                is TestAction.TestActionA -> TestState.Dummy
+                is TestActionA -> StateA
 
-                is TestAction.TestActionB -> TestState.Initial
+                is TestAction.TestActionB -> StateB
             }
         }
     }
