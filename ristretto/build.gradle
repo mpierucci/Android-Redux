@@ -4,8 +4,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 compileKotlin {
@@ -18,9 +18,8 @@ compileTestKotlin {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(":dispatcher")
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
-    implementation 'org.mockito:mockito-core:3.8.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
+    implementation 'org.mockito:mockito-core:3.9.0'
     implementation group: 'junit', name: 'junit', version: '4.13.2'
 
 }
