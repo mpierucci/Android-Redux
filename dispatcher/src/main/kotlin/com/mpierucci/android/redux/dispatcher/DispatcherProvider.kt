@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-interface DispatcherProvider {
+interface  DispatcherProvider {
 
     fun main(): CoroutineDispatcher = Dispatchers.Main.immediate
 

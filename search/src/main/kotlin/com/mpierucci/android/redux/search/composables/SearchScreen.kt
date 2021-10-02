@@ -21,6 +21,9 @@ import com.mpierucci.android.redux.search.SearchStore
 
 @ExperimentalComposeUiApi
 @Composable
+/*
+    TODO having the store here makes imposiblr to preview
+ */
 fun SearchScreen(store: SearchStore) {
 
     val state by store.state.collectAsState()
