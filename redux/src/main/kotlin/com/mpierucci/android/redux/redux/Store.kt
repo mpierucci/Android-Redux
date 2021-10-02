@@ -21,13 +21,18 @@ abstract class Store<State, Action>(
 
     private val chain = middlewares
         .map { middleware -> middleware(this) }
-        .reduceOrNull { function, acc -> acc.compose(function) }
+        .reduceOrNull { function, acc -> acc compose function }
 
     abstract suspend fun reduce(previous: State, action: Action): State
 
     @MainThread
     fun dispatch(action: Action) {
 
+        /*
+            Todo check:
+            this open a new coroutine each time is called, si uf middlewwares or other actions are dispacjted coul cause race condition?
+            should this be a shared flow being collected? what happens middleware start bacgroun work, would this suspend the flow snd cause bygs (delayin future  actins)
+         */
         viewModelScope.launch(dispatcherProvider.main()) {
             val previousState = _state.value
             val interceptedAction = chain?.invoke(action) ?: action
