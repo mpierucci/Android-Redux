@@ -20,7 +20,7 @@ class PerformSearchMiddleware @Inject constructor(
         return { action ->
             when (action) {
                 is Search -> {
-                    store.viewModelScope.launch(dispatcherProvider.main()) {
+                    store.viewModelScope.launch {
                         val drinks = getDrinksByNameUseCase.execute(action.query)
                         store.dispatch(LoadSearchResults(drinks))
                     }
