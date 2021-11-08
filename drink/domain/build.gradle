@@ -11,6 +11,7 @@ java {
 
 compileKotlin {
     kotlinOptions.jvmTarget = "11"
+    kotlinOptions.freeCompilerArgs += ['-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi']
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "11"

@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class StoreTest {
 
     @get:Rule

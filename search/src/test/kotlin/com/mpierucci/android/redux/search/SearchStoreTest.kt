@@ -6,12 +6,10 @@ import com.mpierucci.android.redux.drink.domain.DrinkRepository
 import com.mpierucci.android.redux.drink.domain.GetDrinksByNameUseCase
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
 import com.mpierucci.android.redux.search.middlewares.PerformSearchMiddleware
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.mock
 
-@ExperimentalCoroutinesApi
 class SearchStoreTest {
 
     @get:Rule

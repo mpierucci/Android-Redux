@@ -40,6 +40,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '11'
+        kotlinOptions.freeCompilerArgs += ['-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi']
     }
     buildFeatures {
         compose true

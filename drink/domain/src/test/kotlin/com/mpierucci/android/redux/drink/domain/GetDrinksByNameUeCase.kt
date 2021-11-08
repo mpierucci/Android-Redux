@@ -9,7 +9,6 @@ import org.junit.Test
 import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
 
-@ExperimentalCoroutinesApi
 class GetDrinksByNameUeCaseTest {
 
     @get:Rule
