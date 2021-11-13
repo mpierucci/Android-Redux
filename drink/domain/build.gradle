@@ -11,6 +11,7 @@ java {
 
 compileKotlin {
     kotlinOptions.jvmTarget = "11"
+    kotlinOptions.freeCompilerArgs += ['-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi']
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "11"
@@ -23,7 +24,10 @@ dependencies {
     implementation 'junit:junit:4.13.2'
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin"
     testImplementation project(":ristretto")
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines"){
+        // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
     testImplementation "com.google.truth:truth:1.1.2"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 }

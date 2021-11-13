@@ -1,18 +1,20 @@
 package com.mpierucci.android.redux.drink.domain
 
 import com.google.common.truth.Truth.assertThat
-import com.mpierucci.android.redux.ristretto.CoroutineTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
+import com.mpierucci.android.redux.ristretto.runBlockingTest
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
 
-@ExperimentalCoroutinesApi
-class GetDrinksByNameUeCase : CoroutineTest() {
+class GetDrinksByNameUeCaseTest {
+
+    @get:Rule
+    val coroutineRule = CoroutineTestDispatcherRule()
 
     @Test
-    fun `fetches drink through repository`() = testDispatcher.runBlockingTest {
+    fun `fetches drink through repository`() = coroutineRule.runBlockingTest {
         val expected = listOf(
             Drink(
                 "id", "name", "tags", null, "", "", emptyList()
@@ -23,7 +25,7 @@ class GetDrinksByNameUeCase : CoroutineTest() {
 
         val sut = GetDrinksByNameUseCase(repository)
 
-        val result = sut.execute("Margarita")
+        val result = sut("Margarita")
 
         assertThat(result).isEqualTo(expected)
     }

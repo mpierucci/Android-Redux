@@ -4,22 +4,26 @@ import com.google.common.truth.Truth.assertThat
 import com.mpierucci.android.redux.drink.domain.Drink
 import com.mpierucci.android.redux.drink.domain.DrinkRepository
 import com.mpierucci.android.redux.drink.domain.GetDrinksByNameUseCase
-import com.mpierucci.android.redux.ristretto.CoroutineTest
+import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
 import com.mpierucci.android.redux.search.middlewares.PerformSearchMiddleware
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.mock
 
-@ExperimentalCoroutinesApi
-class SearchStoreTest : CoroutineTest() {
+class SearchStoreTest {
 
+    @get:Rule
+    val coroutineRule = CoroutineTestDispatcherRule()
 
     @Test
     fun `appends query action emits query on state`() {
         val repository = mock<DrinkRepository>()
         val useCase = GetDrinksByNameUseCase(repository)
         val sut =
-            SearchStore(dispatcherProvider, PerformSearchMiddleware(useCase, dispatcherProvider))
+            SearchStore(
+                coroutineRule.testDispatcherProvider,
+                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+            )
 
         sut.dispatch(SearchAction.AppendSearchQuery("Query"))
 
@@ -29,7 +33,6 @@ class SearchStoreTest : CoroutineTest() {
 
         assertThat(result).isEqualTo(expected)
     }
-
 
     @Test
     fun `load search results action emits drink results on state`() {
@@ -41,7 +44,10 @@ class SearchStoreTest : CoroutineTest() {
         val repository = mock<DrinkRepository>()
         val useCase = GetDrinksByNameUseCase(repository)
         val sut =
-            SearchStore(dispatcherProvider, PerformSearchMiddleware(useCase, dispatcherProvider))
+            SearchStore(
+                coroutineRule.testDispatcherProvider,
+                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+            )
 
         sut.dispatch(SearchAction.LoadSearchResults(drinks))
 
@@ -51,5 +57,4 @@ class SearchStoreTest : CoroutineTest() {
 
         assertThat(result).isEqualTo(expected)
     }
-
 }

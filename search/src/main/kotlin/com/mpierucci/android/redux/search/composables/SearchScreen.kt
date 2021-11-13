@@ -16,27 +16,41 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.mpierucci.android.redux.drink.domain.Drink
 import com.mpierucci.android.redux.search.SearchAction
+import com.mpierucci.android.redux.search.SearchState
 import com.mpierucci.android.redux.search.SearchStore
 
 
+@Composable
+@ExperimentalComposeUiApi
+fun SearchScreen(
+    store: SearchStore
+) {
+    val state by store.state.collectAsState()
+    SearchScreen(
+        state = state,
+        onQueryChanged =  { querySlice ->
+            store.dispatch(SearchAction.AppendSearchQuery(querySlice))
+        },
+        onSearch = { searchQuery ->
+            store.dispatch(SearchAction.Search(searchQuery))
+        }
+    )
+}
+
 @ExperimentalComposeUiApi
 @Composable
-/*
-    TODO having the store here makes imposiblr to preview
- */
-fun SearchScreen(store: SearchStore) {
-
-    val state by store.state.collectAsState()
+private fun SearchScreen(
+    state: SearchState,
+    onQueryChanged : (String) -> Unit,
+    onSearch: (String) -> Unit
+) {
     val drinks = state.drinks
     Column {
         SearchToolbar(
             query = state.query,
-            onQueryValueChanged = { querySlice ->
-                store.dispatch(SearchAction.AppendSearchQuery(querySlice))
-            },
-            { searchQuery ->
-                store.dispatch(SearchAction.Search(searchQuery))
-            })
+            onQueryValueChanged = onQueryChanged,
+            onSearch = onSearch
+        )
 
         if (state.drinks.isEmpty()) {
             EmptySearch()
@@ -71,7 +85,7 @@ fun SearchScreen(store: SearchStore) {
 Column is a inline function and thus not skippable by default recomposition
 SO to make it skipable we create its own Composable. This might be a case of premature optimization..
  */
-fun EmptySearch() {
+private fun EmptySearch() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -86,3 +100,8 @@ fun EmptySearch() {
         )
     }
 }
+
+
+
+
+

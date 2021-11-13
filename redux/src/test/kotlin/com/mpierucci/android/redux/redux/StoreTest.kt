@@ -4,15 +4,18 @@ package com.mpierucci.android.redux.redux
 import com.google.common.truth.Truth.assertThat
 import com.mpierucci.android.redux.redux.TestAction.TestActionA
 import com.mpierucci.android.redux.redux.TestState.*
-import com.mpierucci.android.redux.ristretto.CoroutineTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
+import com.mpierucci.android.redux.ristretto.runBlockingTest
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
-class StoreTest : CoroutineTest() {
+class StoreTest {
+
+    @get:Rule
+    val coroutineRule = CoroutineTestDispatcherRule()
+
 
     @Test
     fun `initial state is emitted`() {
@@ -35,7 +38,7 @@ class StoreTest : CoroutineTest() {
     }
 
     @Test
-    fun `apply middlewares before reducing state`() = testDispatcher.runBlockingTest {
+    fun `apply middlewares before reducing state`() = coroutineRule.runBlockingTest {
         val middleware: Middleware<TestState, TestAction> = { _ ->
             { action ->
                 when (action) {
@@ -54,7 +57,7 @@ class StoreTest : CoroutineTest() {
     }
 
     @Test
-    fun `does not duplicate states`() = testDispatcher.runBlockingTest {
+    fun `does not duplicate states`() = coroutineRule.runBlockingTest {
         val sut = DummyStore(emptyList())
         val states = mutableListOf<TestState>()
 
@@ -76,7 +79,7 @@ class StoreTest : CoroutineTest() {
     ) : Store<TestState, TestAction>(
         Initial,
         middleware,
-        dispatcherProvider
+        coroutineRule.testDispatcherProvider
     ) {
         override suspend fun reduce(previous: TestState, action: TestAction): TestState {
             return when (action) {

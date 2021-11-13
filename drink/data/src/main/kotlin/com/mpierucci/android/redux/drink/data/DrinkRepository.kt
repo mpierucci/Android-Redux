@@ -11,8 +11,8 @@ internal class DrinkRepository @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : DrinkRepository {
     override suspend fun getByName(drinkName: String): List<Drink> {
-        val drinks = api.getDrinksByName(drinkName).drinks
-        return withContext(dispatcherProvider.default()) {
+        return withContext(dispatcherProvider.io()) {
+            val drinks = api.getDrinksByName(drinkName).execute().body()!!.drinks
             drinks?.map { it.toDomain() } ?: emptyList()
         }
     }
