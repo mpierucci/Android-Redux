@@ -6,7 +6,6 @@ import com.mpierucci.android.redux.redux.TestAction.TestActionA
 import com.mpierucci.android.redux.redux.TestState.*
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
 import com.mpierucci.android.redux.ristretto.runBlockingTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import org.junit.Rule

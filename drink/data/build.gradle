@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -51,7 +51,10 @@ dependencies {
     testImplementation "junit:junit:${jUnit}"
     testImplementation "com.google.truth:truth:${truth}"
     testImplementation project(":ristretto")
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${kotlin_coroutines}"
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines"){
+        // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
     androidTestImplementation "androidx.test.ext:junit:${jUnitEspresso}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${expressoCore}"
 }

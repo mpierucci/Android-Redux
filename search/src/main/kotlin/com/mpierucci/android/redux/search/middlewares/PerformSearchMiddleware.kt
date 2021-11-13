@@ -21,7 +21,7 @@ class PerformSearchMiddleware @Inject constructor(
             when (action) {
                 is Search -> {
                     store.viewModelScope.launch {
-                        val drinks = getDrinksByNameUseCase.execute(action.query)
+                        val drinks = getDrinksByNameUseCase(action.query)
                         store.dispatch(LoadSearchResults(drinks))
                     }
                     action //search will reduce de state to show loading..

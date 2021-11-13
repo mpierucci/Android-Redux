@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -72,7 +72,10 @@ dependencies {
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin"
     testImplementation "org.mockito:mockito-inline:$mockito"
     testImplementation "com.google.truth:truth:1.1.2"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines"){
+        // https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
     implementation "androidx.compose.ui:ui:$compose"
     // Tooling support (Previews, etc.)
     implementation "androidx.compose.ui:ui-tooling:$compose"

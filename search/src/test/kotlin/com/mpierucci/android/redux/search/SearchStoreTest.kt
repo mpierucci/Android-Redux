@@ -34,7 +34,6 @@ class SearchStoreTest {
         assertThat(result).isEqualTo(expected)
     }
 
-
     @Test
     fun `load search results action emits drink results on state`() {
         val drinks = listOf(
@@ -58,5 +57,4 @@ class SearchStoreTest {
 
         assertThat(result).isEqualTo(expected)
     }
-
 }

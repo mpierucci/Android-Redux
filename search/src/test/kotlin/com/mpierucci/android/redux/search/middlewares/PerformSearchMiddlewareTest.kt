@@ -4,11 +4,9 @@ import com.mpierucci.android.redux.drink.domain.Drink
 import com.mpierucci.android.redux.drink.domain.DrinkRepository
 import com.mpierucci.android.redux.drink.domain.GetDrinksByNameUseCase
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
-import com.mpierucci.android.redux.ristretto.TestDispatcherProvider
 import com.mpierucci.android.redux.ristretto.runBlockingTest
 import com.mpierucci.android.redux.search.SearchAction
 import com.mpierucci.android.redux.search.SearchStore
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.given

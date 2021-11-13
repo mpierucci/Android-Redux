@@ -1,7 +1,6 @@
 package com.mpierucci.android.redux.ristretto
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
 import org.junit.rules.TestRule
 import org.junit.rules.TestWatcher
