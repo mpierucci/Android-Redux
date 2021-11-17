@@ -2,6 +2,7 @@ package com.mpierucci.android.redux.integration.search
 
 import androidx.activity.viewModels
 import com.mpierucci.android.redux.integration.MainActivityRule
+import com.mpierucci.android.redux.integration.TestDispatcher
 import com.mpierucci.android.redux.redux.Store
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -19,7 +20,7 @@ internal abstract class StoreIntegrationTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val coroutineRule = CoroutineTestDispatcherRule()
+    val coroutineRule = CoroutineTestDispatcherRule(TestDispatcher.testCoroutineDispatcher)
 
     @get:Rule(order = 2)
     val mainActivityRule = MainActivityRule()
