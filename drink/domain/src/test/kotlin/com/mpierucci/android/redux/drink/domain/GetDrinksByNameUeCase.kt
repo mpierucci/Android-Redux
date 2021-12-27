@@ -1,5 +1,6 @@
 package com.mpierucci.android.redux.drink.domain
 
+import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
 import com.mpierucci.android.redux.ristretto.runBlockingTest
@@ -15,11 +16,25 @@ class GetDrinksByNameUeCaseTest {
 
     @Test
     fun `fetches drink through repository`() = coroutineRule.runBlockingTest {
-        val expected = listOf(
+        val drinks = listOf(
             Drink(
                 "id", "name", "tags", null, "", "", emptyList()
             )
         )
+        val expected = Either.right(drinks)
+        val repository = mock<DrinkRepository>()
+        given(repository.getByName("Margarita")).willReturn(expected)
+
+        val sut = GetDrinksByNameUseCase(repository)
+
+        val result = sut("Margarita")
+
+        assertThat(result).isEqualTo(expected)
+    }
+
+    @Test
+    fun `fetches drink through repository and return error`() = coroutineRule.runBlockingTest {
+        val expected = Either.left(DrinkError.Unknown)
         val repository = mock<DrinkRepository>()
         given(repository.getByName("Margarita")).willReturn(expected)
 

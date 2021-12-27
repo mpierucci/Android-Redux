@@ -6,11 +6,12 @@ import org.junit.rules.TestRule
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class CoroutineTestDispatcherRule : TestRule, TestWatcher() {
-    val testDispatcher = TestCoroutineDispatcher()
+class CoroutineTestDispatcherRule(
+    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+) : TestRule, TestWatcher() {
 
     val testDispatcherProvider: TestDispatcherProvider
-    get() = TestDispatcherProvider(testDispatcher)
+        get() = TestDispatcherProvider(testDispatcher)
 
     override fun starting(description: Description) {
         Dispatchers.setMain(testDispatcher)
@@ -22,5 +23,5 @@ class CoroutineTestDispatcherRule : TestRule, TestWatcher() {
     }
 }
 
-fun CoroutineTestDispatcherRule.runBlockingTest(block: suspend TestCoroutineScope.()->Unit)
-= testDispatcher.runBlockingTest { block() }
+fun CoroutineTestDispatcherRule.runBlockingTest(block: suspend TestCoroutineScope.() -> Unit) =
+    testDispatcher.runBlockingTest { block() }

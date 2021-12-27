@@ -1,6 +1,7 @@
 package com.mpierucci.android.redux.core.data
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.mpierucci.android.redux.core.data.retrofit.EitherCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +37,7 @@ object ApiModule {
             .client(okHttpClient)
             .baseUrl(baseUrl)
             .addConverterFactory(json.asConverterFactory(contentType))
+            .addCallAdapterFactory(EitherCallAdapterFactory())
             .build()
     }
 }

@@ -49,6 +49,7 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:${mockito}"
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation "junit:junit:${jUnit}"
+    implementation "io.arrow-kt:arrow-core:$arrow_version"
     testImplementation "com.google.truth:truth:${truth}"
     testImplementation project(":ristretto")
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines"){

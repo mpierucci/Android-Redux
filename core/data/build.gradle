@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -28,6 +29,8 @@ android {
     }
     kotlinOptions {
         jvmTarget = '11'
+        //kotlinOptions.freeCompilerArgs += ['-opt-in=kotlinx.serialization.ExperimentalSerializationApi']
+
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -43,8 +46,14 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-serialization-json:${kotlinxSerialisation}"
     api "com.squareup.retrofit2:retrofit:${retrofit}"
     implementation "com.google.dagger:hilt-android:$hilt_version"
+    implementation "io.arrow-kt:arrow-core:$arrow_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${retrofitKotlinxSerialziation}"
     implementation "com.squareup.okhttp3:okhttp:${okHttp}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${expressoCore}"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$mockWebServer_version"
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines"){
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
+    testImplementation "com.google.truth:truth:${truth}"
 }

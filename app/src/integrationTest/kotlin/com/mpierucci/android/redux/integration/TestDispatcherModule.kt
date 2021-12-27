@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 
 
 @Module
@@ -19,6 +18,6 @@ object TestDispatcherModule {
 
     @Provides
     fun provideTestDispatcherModule(): DispatcherProvider = TestDispatcherProvider(
-        TestCoroutineDispatcher()
+        TestDispatcher.testCoroutineDispatcher
     )
 }
