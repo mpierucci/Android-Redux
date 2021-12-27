@@ -1,13 +1,12 @@
 package com.mpierucci.android.redux.search.middlewares
 
 import androidx.lifecycle.viewModelScope
-import com.mpierucci.android.redux.drink.domain.GetDrinksByNameUseCase
 import com.mpierucci.android.redux.dispatcher.DispatcherProvider
+import com.mpierucci.android.redux.drink.domain.GetDrinksByNameUseCase
 import com.mpierucci.android.redux.redux.Middleware
 import com.mpierucci.android.redux.redux.Store
 import com.mpierucci.android.redux.search.SearchAction
-import com.mpierucci.android.redux.search.SearchAction.LoadSearchResults
-import com.mpierucci.android.redux.search.SearchAction.Search
+import com.mpierucci.android.redux.search.SearchAction.*
 import com.mpierucci.android.redux.search.SearchState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +20,12 @@ class PerformSearchMiddleware @Inject constructor(
             when (action) {
                 is Search -> {
                     store.viewModelScope.launch {
-                        val drinks = getDrinksByNameUseCase(action.query)
-                        store.dispatch(LoadSearchResults(drinks))
+
+                        val newAction = getDrinksByNameUseCase(action.query).fold(
+                            { DisplayError },
+                            { drinks -> LoadSearchResults(drinks) }
+                        )
+                        store.dispatch(newAction)
                     }
                     action //search will reduce de state to show loading..
                 }

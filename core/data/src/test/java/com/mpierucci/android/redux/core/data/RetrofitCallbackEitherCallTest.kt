@@ -21,6 +21,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.GET
 
+// TODO https://github.com/mpierucci/Android-Redux/issues/11
 class RetrofitCallbackEitherCallTest {
 
     private lateinit var mockWebServer: MockWebServer

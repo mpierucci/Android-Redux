@@ -15,9 +15,11 @@ import kotlinx.coroutines.launch
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 @HiltAndroidTest
+// TODO https://github.com/mpierucci/Android-Redux/issues/11
 internal class SearchStoreTest : StoreIntegrationTest() {
 
     private lateinit var mockWebServer: MockWebServer
@@ -29,6 +31,7 @@ internal class SearchStoreTest : StoreIntegrationTest() {
     }
 
     @Test
+    @Ignore("Waiting for fix in coroutine test library")
     fun `test input query and search with results flow`() =
         coroutineRule.runBlockingTest {
             mockWebServer.enqueue(createResponse(filePath = SEARCH_WITH_DRINKS_RESPONSE))
@@ -45,9 +48,9 @@ internal class SearchStoreTest : StoreIntegrationTest() {
                         instructions = "Straight: Pour all ingredients into mixing glass with ice cubes. Stir well. Strain in chilled martini cocktail glass. Squeeze oil from lemon peel onto the drink, or garnish with olive.",
                         thumbnail = "https://www.thecocktaildb.com/images/media/drink/71t8581504353095.jpg",
                         ingredients = listOf(
-                            Ingredient("Gin","1 2/3 oz "),
-                            Ingredient("Dry Vermouth","1/3 oz "),
-                            Ingredient("Olive","1 ")
+                            Ingredient("Gin", "1 2/3 oz "),
+                            Ingredient("Dry Vermouth", "1/3 oz "),
+                            Ingredient("Olive", "1 ")
                         )
                     )
                 )
