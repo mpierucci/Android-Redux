@@ -1,18 +1,23 @@
 package com.mpierucci.android.redux.search.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.mpierucci.android.redux.drink.domain.Drink
 import com.mpierucci.android.redux.search.SearchAction
@@ -27,7 +32,7 @@ fun SearchScreen(
     val state by store.state.collectAsState()
     SearchScreen(
         state = state,
-        onQueryChanged =  { querySlice ->
+        onQueryChanged = { querySlice ->
             store.dispatch(SearchAction.AppendSearchQuery(querySlice))
         },
         onSearch = { searchQuery ->
@@ -37,9 +42,9 @@ fun SearchScreen(
 }
 
 @Composable
-private fun SearchScreen(
+internal fun SearchScreen(
     state: SearchState,
-    onQueryChanged : (String) -> Unit,
+    onQueryChanged: (String) -> Unit,
     onSearch: (String) -> Unit
 ) {
     val drinks = state.drinks
@@ -50,53 +55,74 @@ private fun SearchScreen(
             onSearch = onSearch
         )
 
-        if (state.drinks.isEmpty()) {
-            EmptySearch()
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(drinks, { drink: Drink -> drink.id }) { drink ->
-                    Row {
-                        Image(
-                            //TODO check
-                            painter = rememberImagePainter(drink.thumbnail),
-                            contentDescription = null,
-                            modifier = Modifier.size(150.dp)
-                        )
+        if (state.loading) {
+            LinearProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("searchProgress")
+            )
+        }
 
-                        Text(
-                            text = drink.name,
-                            modifier = Modifier.padding(8.dp, 0.dp, 0.dp, 0.dp),
-                            color = MaterialTheme.colors.onBackground
-                        )
+        when {
+
+            state.error != null -> {
+                ErrorScreen(error = state.error)
+            }
+
+            drinks == null -> {
+                StartSearchingSection()
+            }
+
+            drinks.isEmpty() -> {
+                EmptyResultsSection()
+            }
+
+            else -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("drinkList"),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(drinks, { drink: Drink -> drink.id }) { drink ->
+                        Card(
+                            modifier = Modifier
+                                .height(100.dp)
+                                .fillMaxWidth()
+                                .clickable { },
+                            shape = RoundedCornerShape(3.dp)
+                        ) {
+                            Row(modifier = Modifier.padding(16.dp)) {
+                                Image(
+                                    painter = rememberImagePainter(drink.thumbnail),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(60.dp)
+                                        .clip(CircleShape)
+                                )
+
+                                Column(
+                                    Modifier.padding(8.dp, 0.dp, 0.dp, 0.dp)
+                                ) {
+                                    Text(
+                                        text = drink.name,
+                                        fontSize = 14.sp
+                                    )
+
+
+                                    Text(
+                                        text = drink.tags,
+                                        modifier = Modifier.padding(0.dp, 8.dp, 0.dp, 0.dp),
+                                        fontSize = 12.sp
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-/*
-Column is a inline function and thus not skipeable by default recomposition
-So to make it skipable we create its own Composable. This might be a case of premature optimization..
- */
-private fun EmptySearch() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-
-    ) {
-        Text(
-            text = "Your  query yield  no results",
-            color = MaterialTheme.colors.onBackground
-        )
     }
 }
 

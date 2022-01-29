@@ -57,12 +57,13 @@ class PerformSearchMiddlewareTest {
             val sut = PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
             val store = SearchStore(coroutineRule.testDispatcherProvider, sut)
             val storeSpy = spy(store)
+            val expected = DisplayError(DrinkError.Unknown)
 
 
             val chain = sut(storeSpy)
 
             chain(SearchAction.Search("Margarita"))
 
-            verify(storeSpy).dispatch(DisplayError)
+            verify(storeSpy).dispatch(expected)
         }
 }

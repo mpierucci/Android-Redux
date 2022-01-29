@@ -1,6 +1,6 @@
 allprojects {
     ext {
-        arrow_version = "1.0.1" //TODO update
+        arrow_version = "1.0.1"
         kotlin_coroutines = "1.6.0"
 
         app_compat = "1.2.0"

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.material.Surface
 import com.mpierucci.android.redux.search.SearchStore
 import com.mpierucci.android.redux.search.composables.SearchScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +18,9 @@ class MainActivity : AppCompatActivity() {
         // https://medium.com/google-developer-experts/modular-navigation-with-jetpack-compose-fda9f6b2bef7
         setContent {
             DrinksTheme {
-                SearchScreen(store = viewModel)
+                Surface {
+                    SearchScreen(store = viewModel)
+                }
             }
         }
     }
