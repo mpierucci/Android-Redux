@@ -29,7 +29,7 @@ fun <T> fakeSuccessCall(body: T): Call<Either<HttpError, T>> = object : Call<Eit
     }
 
     override fun enqueue(callback: Callback<Either<HttpError, T>>) {
-        callback.onResponse(this, Response.success(Either.right(body)))
+        callback.onResponse(this, Response.success(Either.Right(body)))
     }
 
     override fun isExecuted(): Boolean {
@@ -63,7 +63,7 @@ fun <T> fakeErrorCall(error: HttpError): Call<Either<HttpError, T>> = object : C
     }
 
     override fun enqueue(callback: Callback<Either<HttpError, T>>) {
-        callback.onResponse(this, Response.success(Either.left(error)))
+        callback.onResponse(this, Response.success(Either.Left(error)))
     }
 
     override fun isExecuted(): Boolean {

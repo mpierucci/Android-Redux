@@ -1,7 +1,6 @@
 package com.mpierucci.android.redux.search.middlewares
 
-import arrow.core.Either.Companion.left
-import arrow.core.Either.Companion.right
+import arrow.core.Either
 import com.mpierucci.android.redux.drink.domain.Drink
 import com.mpierucci.android.redux.drink.domain.DrinkError
 import com.mpierucci.android.redux.drink.domain.DrinkRepository
@@ -34,7 +33,7 @@ class PerformSearchMiddlewareTest {
             )
 
             val repository = mock<DrinkRepository>()
-            given(repository.getByName("Margarita")).willReturn(right(drinks))
+            given(repository.getByName("Margarita")).willReturn(Either.Right(drinks))
             val useCase = GetDrinksByNameUseCase(repository)
             val sut = PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
             val store = SearchStore(coroutineRule.testDispatcherProvider, sut)
@@ -53,7 +52,7 @@ class PerformSearchMiddlewareTest {
     fun `fetches drinks and dispatch display error action when use case return an error`() =
         coroutineRule.runBlockingTest {
             val repository = mock<DrinkRepository>()
-            given(repository.getByName("Margarita")).willReturn(left(DrinkError.Unknown))
+            given(repository.getByName("Margarita")).willReturn(Either.Left(DrinkError.Unknown))
             val useCase = GetDrinksByNameUseCase(repository)
             val sut = PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
             val store = SearchStore(coroutineRule.testDispatcherProvider, sut)

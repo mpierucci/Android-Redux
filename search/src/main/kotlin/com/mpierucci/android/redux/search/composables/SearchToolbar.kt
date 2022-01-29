@@ -31,7 +31,6 @@ fun SearchToolbarPreview() {
     SearchToolbar("", {}, {})
 }
 
-@ExperimentalComposeUiApi
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun SearchToolbarPreviewDark() {
@@ -39,7 +38,7 @@ fun SearchToolbarPreviewDark() {
 }
 
 
-@ExperimentalComposeUiApi
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchToolbar(
     query: String,

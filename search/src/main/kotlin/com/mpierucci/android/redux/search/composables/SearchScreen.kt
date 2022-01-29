@@ -21,7 +21,6 @@ import com.mpierucci.android.redux.search.SearchStore
 
 
 @Composable
-@ExperimentalComposeUiApi
 fun SearchScreen(
     store: SearchStore
 ) {
@@ -37,7 +36,6 @@ fun SearchScreen(
     )
 }
 
-@ExperimentalComposeUiApi
 @Composable
 private fun SearchScreen(
     state: SearchState,
@@ -63,6 +61,7 @@ private fun SearchScreen(
                 items(drinks, { drink: Drink -> drink.id }) { drink ->
                     Row {
                         Image(
+                            //TODO check
                             painter = rememberImagePainter(drink.thumbnail),
                             contentDescription = null,
                             modifier = Modifier.size(150.dp)
@@ -82,8 +81,8 @@ private fun SearchScreen(
 
 @Composable
 /*
-Column is a inline function and thus not skippable by default recomposition
-SO to make it skipable we create its own Composable. This might be a case of premature optimization..
+Column is a inline function and thus not skipeable by default recomposition
+So to make it skipable we create its own Composable. This might be a case of premature optimization..
  */
 private fun EmptySearch() {
     Column(
