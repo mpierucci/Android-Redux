@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_bar_hint">Search drinks</string>
+    <string name="search_start_searching_description">Start searching and discover fantastic drinks</string>
+    <string name="search_no_results_description">Your  query yield  no results</string>
+    <string name="search_no_connection_error">Something went wrong. Check your connection</string>
+    <string name="search_unknown_error">Something went wrong. Try again later</string>
+</resources>

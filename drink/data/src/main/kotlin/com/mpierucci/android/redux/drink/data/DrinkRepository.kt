@@ -19,8 +19,8 @@ internal class DrinkRepository @Inject constructor(
         return withContext(dispatcherProvider.io()) {
             val drinks = api.getDrinksByName(drinkName).toEither()
             drinks.fold(
-                { error -> Either.left(error.toDrinkError()) },
-                { response -> Either.right(response.drinks?.map { it.toDomain() } ?: emptyList()) }
+                { error -> Either.Left(error.toDrinkError()) },
+                { response -> Either.Right(response.drinks?.map { it.toDomain() } ?: emptyList()) }
             )
         }
     }

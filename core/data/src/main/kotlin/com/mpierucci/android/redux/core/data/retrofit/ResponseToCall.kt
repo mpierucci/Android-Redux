@@ -13,17 +13,17 @@ internal fun <T> Response<T>.toEither(successType: Type): Either<HttpError, T> {
      *400 and 500 are not failures for retrofit so we need ot handle it here
      */
     if (!isSuccessful) {
-        return Either.left(toNetworkError())
+        return Either.Left(toNetworkError())
     }
 
     body()?.let { body ->
-        return Either.right(body)
+        return Either.Right(body)
     }
 
     return if (successType == Unit::class.java) {
         // Unit as success type means we expect no response body
         @Suppress("UNCHECKED_CAST")
-        Either.right(Unit) as Either<HttpError, T>
+        Either.Right(Unit) as Either<HttpError, T>
     } else {
         val error = IllegalStateException("response body was null but Unit was not success type")
         Either.Left(UnknownHttpError(error))

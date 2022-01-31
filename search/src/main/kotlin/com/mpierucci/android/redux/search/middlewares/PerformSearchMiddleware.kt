@@ -20,14 +20,13 @@ class PerformSearchMiddleware @Inject constructor(
             when (action) {
                 is Search -> {
                     store.viewModelScope.launch {
-
                         val newAction = getDrinksByNameUseCase(action.query).fold(
-                            { DisplayError },
+                            { error -> DisplayError(error) },
                             { drinks -> LoadSearchResults(drinks) }
                         )
                         store.dispatch(newAction)
                     }
-                    action //search will reduce de state to show loading..
+                    action
                 }
                 else -> action
             }

@@ -21,7 +21,7 @@ class GetDrinksByNameUeCaseTest {
                 "id", "name", "tags", null, "", "", emptyList()
             )
         )
-        val expected = Either.right(drinks)
+        val expected = Either.Right(drinks)
         val repository = mock<DrinkRepository>()
         given(repository.getByName("Margarita")).willReturn(expected)
 
@@ -34,7 +34,7 @@ class GetDrinksByNameUeCaseTest {
 
     @Test
     fun `fetches drink through repository and return error`() = coroutineRule.runBlockingTest {
-        val expected = Either.left(DrinkError.Unknown)
+        val expected = Either.Left(DrinkError.Unknown)
         val repository = mock<DrinkRepository>()
         given(repository.getByName("Margarita")).willReturn(expected)
 

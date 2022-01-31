@@ -30,7 +30,7 @@ class DrinkRepositoryTest {
 
         val sut = DrinkRepository(api, TestDispatcherProvider(coroutineRule.testDispatcher))
 
-        val expected: Either<DrinkError, List<Drink>> = Either.right(emptyList())
+        val expected: Either<DrinkError, List<Drink>> = Either.Right(emptyList())
 
         val result = sut.getByName("name")
 
@@ -45,7 +45,7 @@ class DrinkRepositoryTest {
 
         val sut = DrinkRepository(api, TestDispatcherProvider(coroutineRule.testDispatcher))
 
-        val expected: Either<DrinkError, List<Drink>> = Either.left(DrinkError.NoConnection)
+        val expected: Either<DrinkError, List<Drink>> = Either.Left(DrinkError.NoConnection)
 
         val result = sut.getByName("name")
 
@@ -60,7 +60,7 @@ class DrinkRepositoryTest {
 
         val sut = DrinkRepository(api, TestDispatcherProvider(coroutineRule.testDispatcher))
 
-        val expected: Either<DrinkError, List<Drink>> = Either.left(DrinkError.Unknown)
+        val expected: Either<DrinkError, List<Drink>> = Either.Left(DrinkError.Unknown)
 
         val result = sut.getByName("name")
 

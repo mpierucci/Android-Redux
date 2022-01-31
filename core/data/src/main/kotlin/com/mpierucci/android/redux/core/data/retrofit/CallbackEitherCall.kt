@@ -1,6 +1,7 @@
 package com.mpierucci.android.redux.core.data.retrofit
 
 import arrow.core.Either
+import arrow.core.left
 import com.mpierucci.android.redux.core.data.HttpError
 import com.mpierucci.android.redux.core.data.NetworkError
 import com.mpierucci.android.redux.core.data.SerializationError
@@ -50,7 +51,7 @@ internal class CallbackEitherCall<T>(
                     else -> UnknownHttpError(t)
                 }
 
-                callback.onResponse(this@CallbackEitherCall, Response.success(Either.left(error)))
+                callback.onResponse(this@CallbackEitherCall, Response.success(Either.Left(error)))
             }
         })
     }

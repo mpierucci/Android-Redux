@@ -21,8 +21,13 @@ class SearchStore @Inject constructor(
     ): SearchState {
         return when (action) {
             is SearchAction.AppendSearchQuery -> previous.copy(query = action.querySlice)
-            is SearchAction.LoadSearchResults -> previous.copy(drinks = action.drinks)
-            else -> previous
+            is SearchAction.LoadSearchResults -> previous.copy(
+                drinks = action.drinks,
+                loading = false,
+                error = null
+            )
+            is SearchAction.Search -> previous.copy(loading = true)
+            is SearchAction.DisplayError -> previous.copy(error = action.error, loading = false)
         }
     }
 }
