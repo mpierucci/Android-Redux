@@ -19,7 +19,12 @@ class SearchScreenTest {
         val searchState = SearchState(loading = true)
 
         composeTestRule.setContent {
-            SearchScreen(state = searchState, onQueryChanged = {}, onSearch = {})
+            SearchScreen(
+                state = searchState,
+                onQueryChanged = {},
+                onSearch = {},
+                onDrinkTapped = {}
+            )
         }
 
         composeTestRule.onNode(hasTestTag("searchProgress"))
@@ -32,7 +37,12 @@ class SearchScreenTest {
         val searchState = SearchState(loading = false)
 
         composeTestRule.setContent {
-            SearchScreen(state = searchState, onQueryChanged = {}, onSearch = {})
+            SearchScreen(
+                state = searchState,
+                onQueryChanged = {},
+                onSearch = {},
+                onDrinkTapped = {}
+            )
         }
 
         composeTestRule.onNode(hasTestTag("searchProgress"))
@@ -44,7 +54,12 @@ class SearchScreenTest {
         val searchState = SearchState(drinks = null)
 
         composeTestRule.setContent {
-            SearchScreen(state = searchState, onQueryChanged = {}, onSearch = {})
+            SearchScreen(
+                state = searchState,
+                onQueryChanged = {},
+                onSearch = {},
+                onDrinkTapped = {}
+            )
         }
 
         composeTestRule.onNode(hasTestTag("startSearching")).assertExists()
@@ -58,7 +73,12 @@ class SearchScreenTest {
         val searchState = SearchState(drinks = emptyList())
 
         composeTestRule.setContent {
-            SearchScreen(state = searchState, onQueryChanged = {}, onSearch = {})
+            SearchScreen(
+                state = searchState,
+                onQueryChanged = {},
+                onSearch = {},
+                onDrinkTapped = {}
+            )
         }
 
         composeTestRule.onNode(hasTestTag("startSearching")).assertDoesNotExist()
@@ -75,7 +95,12 @@ class SearchScreenTest {
             )
 
         composeTestRule.setContent {
-            SearchScreen(state = searchState, onQueryChanged = {}, onSearch = {})
+            SearchScreen(
+                state = searchState,
+                onQueryChanged = {},
+                onSearch = {},
+                onDrinkTapped = {}
+            )
         }
 
         composeTestRule.onRoot().printToLog("Marco")
@@ -91,7 +116,12 @@ class SearchScreenTest {
         val searchState = SearchState(drinks = emptyList(), error = DrinkError.Unknown)
 
         composeTestRule.setContent {
-            SearchScreen(state = searchState, onQueryChanged = {}, onSearch = {})
+            SearchScreen(
+                state = searchState,
+                onQueryChanged = {},
+                onSearch = {},
+                onDrinkTapped = {}
+            )
         }
 
         composeTestRule.onNode(hasTestTag("startSearching")).assertDoesNotExist()
@@ -105,7 +135,12 @@ class SearchScreenTest {
         val searchState = SearchState(query = "Daikiri")
 
         composeTestRule.setContent {
-            SearchScreen(state = searchState, onQueryChanged = {}, onSearch = {})
+            SearchScreen(
+                state = searchState,
+                onQueryChanged = {},
+                onSearch = {},
+                onDrinkTapped = {}
+            )
         }
 
         composeTestRule.onRoot().printToLog("Marco")

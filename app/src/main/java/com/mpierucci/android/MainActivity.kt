@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel by viewModels<SearchStore>()
         setContent {
             DrinksTheme {
                 Surface {
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                             navController.navigate(command.destination)
                         }
                     }
-                    SearchScreen(store = viewModel)
+                    AppNavHost(navController = navController)
                 }
             }
         }

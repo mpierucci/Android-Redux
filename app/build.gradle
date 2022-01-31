@@ -67,6 +67,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(":search")
     implementation project(":drink:domain")
+    implementation project(":drink:presentation")
     implementation project(":dispatcher")
     implementation project(":redux")
     implementation project(":core:data")

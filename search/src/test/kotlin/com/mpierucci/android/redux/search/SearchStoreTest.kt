@@ -6,6 +6,7 @@ import com.mpierucci.android.redux.drink.domain.DrinkError
 import com.mpierucci.android.redux.drink.domain.DrinkRepository
 import com.mpierucci.android.redux.drink.domain.GetDrinksByNameUseCase
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
+import com.mpierucci.android.redux.search.middlewares.NavigationMiddleware
 import com.mpierucci.android.redux.search.middlewares.PerformSearchMiddleware
 import org.junit.Rule
 import org.junit.Test
@@ -24,7 +25,8 @@ class SearchStoreTest {
         val sut =
             SearchStore(
                 coroutineRule.testDispatcherProvider,
-                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+                PerformSearchMiddleware(useCase),
+                NavigationMiddleware(mock())
             )
         val expected = SearchState()
 
@@ -40,7 +42,8 @@ class SearchStoreTest {
         val sut =
             SearchStore(
                 coroutineRule.testDispatcherProvider,
-                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+                PerformSearchMiddleware(useCase),
+                NavigationMiddleware(mock())
             )
 
         sut.dispatch(SearchAction.AppendSearchQuery("Query"))
@@ -54,17 +57,14 @@ class SearchStoreTest {
 
     @Test
     fun `load search results action emits drink results on state`() {
-        val drinks = listOf(
-            Drink(
-                "id", "name", "tags", null, "", "", emptyList()
-            )
-        )
+        val drinks = listOf(createDrink())
         val repository = mock<DrinkRepository>()
         val useCase = GetDrinksByNameUseCase(repository)
         val sut =
             SearchStore(
                 coroutineRule.testDispatcherProvider,
-                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+                PerformSearchMiddleware(useCase),
+                NavigationMiddleware(mock())
             )
 
         sut.dispatch(SearchAction.LoadSearchResults(drinks))
@@ -78,17 +78,14 @@ class SearchStoreTest {
 
     @Test
     fun `load search results action emits loading false on state`() {
-        val drinks = listOf(
-            Drink(
-                "id", "name", "tags", null, "", "", emptyList()
-            )
-        )
+        val drinks = listOf(createDrink())
         val repository = mock<DrinkRepository>()
         val useCase = GetDrinksByNameUseCase(repository)
         val sut =
             SearchStore(
                 coroutineRule.testDispatcherProvider,
-                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+                PerformSearchMiddleware(useCase),
+                NavigationMiddleware(mock())
             )
 
         sut.dispatch(SearchAction.Search(""))
@@ -103,17 +100,14 @@ class SearchStoreTest {
 
     @Test
     fun `load search results action emits null error on state`() {
-        val drinks = listOf(
-            Drink(
-                "id", "name", "tags", null, "", "", emptyList()
-            )
-        )
+        val drinks = listOf(createDrink())
         val repository = mock<DrinkRepository>()
         val useCase = GetDrinksByNameUseCase(repository)
         val sut =
             SearchStore(
                 coroutineRule.testDispatcherProvider,
-                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+                PerformSearchMiddleware(useCase),
+                NavigationMiddleware(mock())
             )
 
         sut.dispatch(SearchAction.DisplayError(DrinkError.Unknown))
@@ -133,7 +127,8 @@ class SearchStoreTest {
         val sut =
             SearchStore(
                 coroutineRule.testDispatcherProvider,
-                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+                PerformSearchMiddleware(useCase),
+                NavigationMiddleware(mock())
             )
         val expected = SearchState(loading = true)
 
@@ -151,7 +146,8 @@ class SearchStoreTest {
         val sut =
             SearchStore(
                 coroutineRule.testDispatcherProvider,
-                PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
+                PerformSearchMiddleware(useCase),
+                NavigationMiddleware(mock())
             )
         val expected = SearchState(loading = false, error = DrinkError.NoConnection)
 
@@ -160,5 +156,11 @@ class SearchStoreTest {
         val result = sut.state.value
 
         assertThat(result).isEqualTo(expected)
+    }
+
+    private fun createDrink(): Drink {
+        return Drink(
+            "id", "name", "tags", null, "", "", emptyList()
+        )
     }
 }
