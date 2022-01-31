@@ -2,6 +2,7 @@ package com.mpierucci.android.redux.search
 
 import com.mpierucci.android.redux.dispatcher.DispatcherProvider
 import com.mpierucci.android.redux.redux.Store
+import com.mpierucci.android.redux.search.middlewares.NavigationMiddleware
 import com.mpierucci.android.redux.search.middlewares.PerformSearchMiddleware
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -9,10 +10,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchStore @Inject constructor(
     dispatcherProvider: DispatcherProvider,
-    performSearchMiddleware: PerformSearchMiddleware
+    performSearchMiddleware: PerformSearchMiddleware,
+    navigationMiddleware: NavigationMiddleware,
 ) : Store<SearchState, SearchAction>(
     SearchState(),
-    listOf(performSearchMiddleware),
+    listOf(performSearchMiddleware, navigationMiddleware),
     dispatcherProvider
 ) {
     override suspend fun reduce(
@@ -28,6 +30,7 @@ class SearchStore @Inject constructor(
             )
             is SearchAction.Search -> previous.copy(loading = true)
             is SearchAction.DisplayError -> previous.copy(error = action.error, loading = false)
+            is SearchAction.NavigateToDrinkDetail -> previous
         }
     }
 }

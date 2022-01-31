@@ -7,5 +7,6 @@ sealed class SearchAction {
     data class Search(val query: String) : SearchAction()
     data class LoadSearchResults(val drinks: List<Drink>) : SearchAction()
     data class AppendSearchQuery(val querySlice: String) : SearchAction()
-    data class DisplayError(val error:DrinkError): SearchAction()
+    data class DisplayError(val error: DrinkError) : SearchAction()
+    data class NavigateToDrinkDetail(val drinkName: String) : SearchAction()
 }

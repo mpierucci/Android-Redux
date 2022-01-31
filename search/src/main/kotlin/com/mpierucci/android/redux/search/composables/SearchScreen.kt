@@ -37,6 +37,9 @@ fun SearchScreen(
         },
         onSearch = { searchQuery ->
             store.dispatch(SearchAction.Search(searchQuery))
+        },
+        onDrinkTapped = { drinkName->
+            store.dispatch(SearchAction.NavigateToDrinkDetail(drinkName))
         }
     )
 }
@@ -45,7 +48,8 @@ fun SearchScreen(
 internal fun SearchScreen(
     state: SearchState,
     onQueryChanged: (String) -> Unit,
-    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit,
+    onDrinkTapped: (String) -> Unit
 ) {
     val drinks = state.drinks
     Column {
@@ -90,7 +94,9 @@ internal fun SearchScreen(
                             modifier = Modifier
                                 .height(100.dp)
                                 .fillMaxWidth()
-                                .clickable { },
+                                .clickable {
+                                    onDrinkTapped(drink.name)
+                                },
                             shape = RoundedCornerShape(3.dp)
                         ) {
                             Row(modifier = Modifier.padding(16.dp)) {
@@ -109,8 +115,6 @@ internal fun SearchScreen(
                                         text = drink.name,
                                         fontSize = 14.sp
                                     )
-
-
                                     Text(
                                         text = drink.tags,
                                         modifier = Modifier.padding(0.dp, 8.dp, 0.dp, 0.dp),

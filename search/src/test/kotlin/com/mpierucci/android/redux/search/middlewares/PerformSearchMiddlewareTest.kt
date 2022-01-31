@@ -8,8 +8,8 @@ import com.mpierucci.android.redux.drink.domain.GetDrinksByNameUseCase
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
 import com.mpierucci.android.redux.ristretto.runBlockingTest
 import com.mpierucci.android.redux.search.SearchAction
-import com.mpierucci.android.redux.search.SearchAction.LoadSearchResults
 import com.mpierucci.android.redux.search.SearchAction.DisplayError
+import com.mpierucci.android.redux.search.SearchAction.LoadSearchResults
 import com.mpierucci.android.redux.search.SearchStore
 import org.junit.Rule
 import org.junit.Test
@@ -35,8 +35,8 @@ class PerformSearchMiddlewareTest {
             val repository = mock<DrinkRepository>()
             given(repository.getByName("Margarita")).willReturn(Either.Right(drinks))
             val useCase = GetDrinksByNameUseCase(repository)
-            val sut = PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
-            val store = SearchStore(coroutineRule.testDispatcherProvider, sut)
+            val sut = PerformSearchMiddleware(useCase)
+            val store = SearchStore(coroutineRule.testDispatcherProvider, sut,createNavigationMiddleWare() )
             val storeSpy = spy(store)
 
 
@@ -54,8 +54,8 @@ class PerformSearchMiddlewareTest {
             val repository = mock<DrinkRepository>()
             given(repository.getByName("Margarita")).willReturn(Either.Left(DrinkError.Unknown))
             val useCase = GetDrinksByNameUseCase(repository)
-            val sut = PerformSearchMiddleware(useCase, coroutineRule.testDispatcherProvider)
-            val store = SearchStore(coroutineRule.testDispatcherProvider, sut)
+            val sut = PerformSearchMiddleware(useCase)
+            val store = SearchStore(coroutineRule.testDispatcherProvider, sut, createNavigationMiddleWare())
             val storeSpy = spy(store)
             val expected = DisplayError(DrinkError.Unknown)
 
@@ -66,4 +66,7 @@ class PerformSearchMiddlewareTest {
 
             verify(storeSpy).dispatch(expected)
         }
+
+
+    private fun createNavigationMiddleWare() = NavigationMiddleware(mock())
 }
