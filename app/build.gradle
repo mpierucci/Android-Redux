@@ -122,5 +122,6 @@ dependencies {
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
     testImplementation "com.squareup.okhttp3:mockwebserver:$mockWebServer_version"
+    testImplementation "app.cash.turbine:turbine:$turbineVersion"
 }
 

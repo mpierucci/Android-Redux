@@ -17,7 +17,7 @@ allprojects {
         okHttp = "4.9.0"
         kotlinxSerialisation = "1.0.1"
 
-        compose = "1.1.0-rc03"
+        compose = "1.1.1"
 
         //////////////////////////////////////TEST/////////////////////////////////////////////////
         jUnit = "4.13.2"
@@ -29,6 +29,7 @@ allprojects {
         expressoCore = "3.3.0"
         mockWebServer_version = "4.9.2"
 
-        roboelectric_version = "4.7-alpha-2"
+        roboelectric_version = "4.7.3"
+        turbineVersion = "0.7.0"
     }
 }

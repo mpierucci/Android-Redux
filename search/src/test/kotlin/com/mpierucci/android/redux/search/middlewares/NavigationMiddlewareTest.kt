@@ -5,9 +5,9 @@ import com.mpierucci.android.redux.navigation.NavigationCommand
 import com.mpierucci.android.redux.navigation.NavigationDirections.DrinkDetails
 import com.mpierucci.android.redux.navigation.NavigationManager
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
-import com.mpierucci.android.redux.ristretto.runBlockingTest
 import com.mpierucci.android.redux.search.SearchAction
 import com.mpierucci.android.redux.search.SearchStore
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.argumentCaptor
@@ -20,7 +20,7 @@ class NavigationMiddlewareTest {
 
     @Test
     fun `navigates through navigation manager on navigate to drink detail action`() =
-        coroutineRule.runBlockingTest {
+        runTest {
 
             val navigationManager = mock<NavigationManager>()
             val sut = NavigationMiddleware(navigationManager)

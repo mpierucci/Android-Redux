@@ -1,11 +1,10 @@
 package com.mpierucci.android.redux.ristretto
 
 import com.mpierucci.android.redux.dispatcher.DispatcherProvider
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestDispatcher
 
 
-class TestDispatcherProvider(private val testDispatcher: TestCoroutineDispatcher) :
+class TestDispatcherProvider(private val testDispatcher: TestDispatcher) :
     DispatcherProvider {
     override fun default() = testDispatcher
     override fun io() = testDispatcher

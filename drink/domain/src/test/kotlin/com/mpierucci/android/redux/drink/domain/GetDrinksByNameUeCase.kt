@@ -3,7 +3,7 @@ package com.mpierucci.android.redux.drink.domain
 import arrow.core.Either
 import com.google.common.truth.Truth.assertThat
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
-import com.mpierucci.android.redux.ristretto.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.given
@@ -15,7 +15,7 @@ class GetDrinksByNameUeCaseTest {
     val coroutineRule = CoroutineTestDispatcherRule()
 
     @Test
-    fun `fetches drink through repository`() = coroutineRule.runBlockingTest {
+    fun `fetches drink through repository`() = runTest {
         val drinks = listOf(
             Drink(
                 "id", "name", "tags", null, "", "", emptyList()
@@ -33,7 +33,7 @@ class GetDrinksByNameUeCaseTest {
     }
 
     @Test
-    fun `fetches drink through repository and return error`() = coroutineRule.runBlockingTest {
+    fun `fetches drink through repository and return error`() = runTest {
         val expected = Either.Left(DrinkError.Unknown)
         val repository = mock<DrinkRepository>()
         given(repository.getByName("Margarita")).willReturn(expected)
