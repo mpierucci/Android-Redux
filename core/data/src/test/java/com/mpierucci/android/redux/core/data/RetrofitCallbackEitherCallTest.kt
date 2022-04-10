@@ -7,6 +7,7 @@ import com.mpierucci.android.redux.core.data.ClientError.*
 import com.mpierucci.android.redux.core.data.retrofit.EitherCallAdapterFactory
 import com.mpierucci.android.redux.core.data.retrofit.toEither
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -21,7 +22,6 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.GET
 
-// TODO https://github.com/mpierucci/Android-Redux/issues/11
 class RetrofitCallbackEitherCallTest {
 
     private lateinit var mockWebServer: MockWebServer
@@ -33,7 +33,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test
-    fun `successful response without body returns unit`() = runBlocking {
+    fun `successful response without body returns unit`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(200))
         val service = createRetrofit().create(DummyInterface::class.java)
 
@@ -46,7 +46,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test
-    fun `successful response with body returns expected body`() = runBlocking {
+    fun `successful response with body returns expected body`() = runTest {
         mockWebServer.enqueue(
             MockResponse().setResponseCode(200).setBody(
                 """
@@ -67,7 +67,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test
-    fun `bad request http response returns bad request http error`() = runBlocking {
+    fun `bad request http response returns bad request http error`() = runTest {
 
         mockWebServer.enqueue(MockResponse().setResponseCode(400))
 
@@ -83,7 +83,7 @@ class RetrofitCallbackEitherCallTest {
 
     @Test
     fun `bad request http response without error body returns bad request http error with empty message`() =
-        runBlocking {
+        runTest {
 
             mockWebServer.enqueue(MockResponse().setResponseCode(400))
 
@@ -99,7 +99,7 @@ class RetrofitCallbackEitherCallTest {
 
     @Test
     fun `unauthorized http response without error body returns unauthorized http error`() =
-        runBlocking {
+        runTest {
 
             mockWebServer.enqueue(MockResponse().setResponseCode(401))
 
@@ -115,7 +115,7 @@ class RetrofitCallbackEitherCallTest {
 
     @Test
     fun `not found http response without error body returns not foun http error`() =
-        runBlocking {
+        runTest {
 
             mockWebServer.enqueue(MockResponse().setResponseCode(404))
 
@@ -131,7 +131,7 @@ class RetrofitCallbackEitherCallTest {
 
 
     @Test
-    fun `forbidden http response returns forbidden http error`() = runBlocking {
+    fun `forbidden http response returns forbidden http error`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(403))
 
         val service = createRetrofit().create(DummyInterface::class.java)
@@ -145,7 +145,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test
-    fun `unhandled 4xx http response returns other http client error`() = runBlocking {
+    fun `unhandled 4xx http response returns other http client error`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(405))
 
         val service = createRetrofit().create(DummyInterface::class.java)
@@ -159,7 +159,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test
-    fun `500 min cap  http response returns server error`() = runBlocking {
+    fun `500 min cap  http response returns server error`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
 
         val service = createRetrofit().create(DummyInterface::class.java)
@@ -173,7 +173,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test
-    fun `500 max cap  http response returns server error`() = runBlocking {
+    fun `500 max cap  http response returns server error`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(599))
 
         val service = createRetrofit().create(DummyInterface::class.java)
@@ -187,7 +187,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test
-    fun `over 5xx unsuccessful  http response returns unknown error`() = runBlocking {
+    fun `over 5xx unsuccessful  http response returns unknown error`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(600))
 
         val service = createRetrofit().create(DummyInterface::class.java)
@@ -206,7 +206,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test
-    fun `error with serialization returns serialization error`() = runBlocking {
+    fun `error with serialization returns serialization error`() = runTest {
         mockWebServer.enqueue(
             MockResponse().setResponseCode(200).setBody(
                 """
@@ -227,7 +227,7 @@ class RetrofitCallbackEitherCallTest {
     }
 
     @Test(expected = IllegalAccessError::class)
-    fun `execute on call provided by a service throws exception`() = runBlocking {
+    fun `execute on call provided by a service throws exception`() = runTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(403))
         val service = createRetrofit().create(DummyInterface::class.java)
 

@@ -5,9 +5,10 @@ import com.google.common.truth.Truth.assertThat
 import com.mpierucci.android.redux.redux.TestAction.TestActionA
 import com.mpierucci.android.redux.redux.TestState.*
 import com.mpierucci.android.redux.ristretto.CoroutineTestDispatcherRule
-import com.mpierucci.android.redux.ristretto.runBlockingTest
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -38,7 +39,7 @@ class StoreTest {
     }
 
     @Test
-    fun `apply middlewares before reducing state`() = coroutineRule.runBlockingTest {
+    fun `apply middlewares before reducing state`() = runTest {
         val middleware: Middleware<TestState, TestAction> = { _ ->
             { action ->
                 when (action) {
@@ -57,11 +58,11 @@ class StoreTest {
     }
 
     @Test
-    fun `does not duplicate states`() = coroutineRule.runBlockingTest {
+    fun `does not duplicate states`() = runTest {
         val sut = DummyStore(emptyList())
         val states = mutableListOf<TestState>()
 
-        val job = launch {
+        val job = launch(UnconfinedTestDispatcher(testScheduler)) {
             sut.state.toList(states)
         }
 

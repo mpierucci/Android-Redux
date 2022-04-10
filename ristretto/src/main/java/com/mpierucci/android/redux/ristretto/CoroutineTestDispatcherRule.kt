@@ -7,7 +7,7 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 class CoroutineTestDispatcherRule(
-    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
 ) : TestRule, TestWatcher() {
 
     val testDispatcherProvider: TestDispatcherProvider
@@ -18,10 +18,6 @@ class CoroutineTestDispatcherRule(
     }
 
     override fun finished(description: Description?) {
-        testDispatcher.cleanupTestCoroutines()
         Dispatchers.resetMain()
     }
 }
-
-fun CoroutineTestDispatcherRule.runBlockingTest(block: suspend TestCoroutineScope.() -> Unit) =
-    testDispatcher.runBlockingTest { block() }
